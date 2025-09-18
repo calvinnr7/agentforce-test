@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Agentforce Test – GitHub Pages</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self' https: data: blob:;
+             script-src 'self' https: 'unsafe-inline' 'unsafe-eval';
+             connect-src 'self' https: wss:;
+             img-src 'self' https: data: blob:;
+             style-src 'self' 'unsafe-inline' https:;
+             frame-src https:;
+             font-src 'self' https: data:;">
+
+  <style>
+    /* ---- Brand tokens ---- */
+    :root{
+      --brand-green-light: #c9f1e6;   /* light mint */
+      --brand-green:       #0AA373;   /* brand */
+      --brand-green-dark:  #0A855F;   /* deeper */
+    }
+
+    /* Make sure the gradient covers the full viewport */
+    html, body { height: 100%; }
+
+    /* Put the gradient on <html> so it can't be easily overridden */
+    html{
+      background:
+        linear-gradient(
+          180deg,
+          var(--brand-green-light) 0%,
+          var(--brand-green) 45%,
+          var(--brand-green-dark) 100%
+        ) fixed !important;
+      background-color: var(--brand-green); /* fallback */
+    }
+
+    /* Keep body transparent so the html gradient shows through */
+    body{
+      margin: 0;
+      background: transparent !important;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh;
+      color: #111;
+    }
+
+    .card{
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 760px; width: 90%;
+      box-shadow: 0 12px 28px rgba(0,0,0,.25);
+    }
+
+    h1{ color: var(--brand-green-dark); margin-top: 0; }
+    .muted{ color: #6b7280; font-size: .95rem }
+    button{
+      padding: .6rem 1.2rem; border-radius: 8px; border: none; cursor: pointer;
+      font-weight: 600; margin-right: .5rem;
+    }
+    button.primary{ background: var(--brand-green); color: #fff }
+    button.primary:hover{ background: var(--brand-green-dark) }
+    button.secondary{ background: #f3f4f6; color: #111 }
+
+    pre#log{
+      background: #f9fafb; padding: 12px; border-radius: 8px; margin-top: 16px;
+      overflow-x: auto; font-size: .85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Agentforce (MIAW) – Test Page</h1>
+    <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
+    <p>
+      <button class="primary" onclick="openChat()">Open Chat</button>
+      <button class="secondary" onclick="location.reload()">Hard Refresh</button>
+    </p>
+    <pre id="log" class="muted"></pre>
+  </div>
+
+  <!-- Your Messaging snippet -->
+  <script>
+    // simple logger
+    const logEl = document.getElementById('log');
+    const log = (m) => { if (logEl) logEl.textContent += m + '\n'; console.log(m); };
+
+    function initEmbeddedMessaging() {
+      try {
+        log('→ initEmbeddedMessaging()');
+        embeddedservice_bootstrap.settings.language = 'en_US';
+        embeddedservice_bootstrap.settings.enableUserInputForConversationWithBot = false;
+
+        embeddedservice_bootstrap.init(
+          '00DOg000001Vluv',
+          'ONZ_Messaging_Web',
+          'https://onz--dcaidev.sandbox.my.site.com/ESWONZMessagingWeb1757919743068',
+          { scrt2URL: 'https://onz--dcaidev.sandbox.my.salesforce-scrt.com' }
+        );
+        log('✅ init() called.');
+      } catch (err) {
+        log('❌ init error: ' + err.message);
+      }
+    }
+
+    // Ready signal from Embedded Messaging
+    document.addEventListener('onEmbeddedMessagingReady', () => {
+      log('⚡ onEmbeddedMessagingReady fired.');
+    });
+
+    // Robust opener with retry
+    async function openChat(){
+      try{
+        const start = Date.now(), timeout = 10000;
+        while (!(window.embeddedservice_bootstrap
+                 && embeddedservice_bootstrap.utilAPI
+                 && typeof embeddedservice_bootstrap.utilAPI.openChat === 'function')) {
+          if (Date.now() - start > timeout) {
+            log('⏰ utilAPI.openChat() not available after 10s — check network/init/org settings.');
+            return;
+          }
+          log('…waiting for utilAPI.openChat()');
+          await new Promise(r => setTimeout(r, 300));
+        }
+        embeddedservice_bootstrap.utilAPI.openChat();   // ← correct API
+        log('✅ openChat() invoked.');
+      } catch(e){
+        log('❌ openChat error: ' + e.message);
+      }
+    }
+  </script>
+
+  <!-- Load bootstrap last so onload can call init -->
+  <script
+    src="https://onz--dcaidev.sandbox.my.site.com/ESWONZMessagingWeb1757919743068/assets/js/bootstrap.min.js"
+    onload="initEmbeddedMessaging()"></script>
+</body>
+</html>
