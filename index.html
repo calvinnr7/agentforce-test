@@ -65,11 +65,33 @@
 
   <!-- 🔽 Paste the official Messaging web snippet from Salesforce here (verbatim) 🔽 -->
   <script type='text/javascript'>
+
+	  function getUrlParam(name) {
+    	const params = new URLSearchParams(window.location.search);
+  		return params.get(name);
+		}
+
 	function initEmbeddedMessaging() {
 		try {
 			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
 			embeddedservice_bootstrap.settings.enableUserInputForConversationWithBot = false;
 			embeddedservice_bootstrap.settings.disableStreamingResponses = true;   
+
+
+			 // Read from URL and inject into hidden prechat field for recommended plan code sent in CTA URL
+		    const planCode = getUrlParam("recommendedPlanCode");
+		    if (planCode) {
+		      embeddedservice_bootstrap.settings.embeddedServiceConfig = {
+		        prechatFields: [
+		          {
+		            name: "recommendedPlanCode",   // must match the API name of your hidden field
+		            value: planCode,
+		            hidden: true
+		          }
+		        ]
+		      };
+		    }
+
 
 			embeddedservice_bootstrap.init(
 				'00DOg000001Vluv',
