@@ -16,30 +16,39 @@
              frame-src https:;
              font-src 'self' https: data:;">
 <style>
-  :root {
-    --brand-green: #0AA373;
+  :root{
+    --brand-green-light: #bfeee1;  /* very light mint */
+    --brand-green:       #0AA373;  /* your brand green */
+    --brand-green-dark:  #0A855F;  /* deeper green */
   }
 
-  body {
-    margin: 0;
-    background: var(--brand-green);   /* ✅ whole page green */
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+
+    /* Top → bottom linear gradient (light to dark) */
+    background: linear-gradient(
+      180deg,
+      var(--brand-green-light) 0%,
+      var(--brand-green) 45%,
+      var(--brand-green-dark) 100%
+    );
   }
 
-  .card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 24px;
-    max-width: 760px;
-    width: 90%;
-    box-shadow: 0 12px 28px rgba(0,0,0,.25);
-    color: #111;
+  .card{
+    background:#fff;
+    border-radius:16px;
+    padding:24px;
+    max-width:760px; width:90%;
+    box-shadow:0 12px 28px rgba(0,0,0,.25);
+    color:#111;
   }
 </style>
+
 
 
 </head>
