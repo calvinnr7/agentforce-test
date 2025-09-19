@@ -79,18 +79,19 @@
 
 
 			 // Read from URL and inject into hidden prechat field for recommended plan code sent in CTA URL
-		    const planCode = getUrlParam("recommendedPlanCode");
-		    if (planCode) {
-		      embeddedservice_bootstrap.settings.embeddedServiceConfig = {
-		        prechatFields: [
-		          {
-		            name: "recommendedPlanCode",   // must match the API name of your hidden field
-		            value: planCode,
-		            hidden: true
-		          }
-		        ]
-		      };
-		    }
+		    document.addEventListener("onEmbeddedMessagingReady", function() {
+			  console.log("⚡ MIAW bootstrap ready");
+			  
+			  const planCode = getUrlParam("recommendedPlanCode");
+			  console.log("plan code is: " + planCode);
+			  if (planCode) {
+			    embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+			      recommendedPlanCode: planCode   // must equal the Channel Variable Name in Setup
+			    });
+			    console.log("🔒 Hidden prechat set: recommendedPlanCode = " + planCode);
+			  }
+			});
+
 
 
 			embeddedservice_bootstrap.init(
@@ -118,11 +119,11 @@
     try {
       if (window.embeddedservice_bootstrap?.utilAPI){
         embeddedservice_bootstrap.utilAPI.openChat();
-        log('openChat() called.');
+        console.log('openChat() called.');
       } else {
         log('Bootstrap not ready yet. Try again in a second.');
       }
-    }catch(e){ log('openChat error: ' + e.message); }
+    }catch(e){ console.log('openChat error: ' + e.message); }
   }
 </script>
 </body>
