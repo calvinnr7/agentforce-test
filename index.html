@@ -123,22 +123,5 @@
 
 <script type='text/javascript' src='https://onz--dcaidev.sandbox.my.site.com/ESWONZMessagingWeb1757919743068/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 
-
-<script>
-  document.addEventListener("onEmbeddedMessagingReady", function() {
-    log("MIAW bootstrap ready — you can now open chat.");
-  });
-
-  function openChat(){
-    try {
-      if (window.embeddedservice_bootstrap?.utilAPI){
-        embeddedservice_bootstrap.utilAPI.openChat();
-        console.log('openChat() called.');
-      } else {
-        log('Bootstrap not ready yet. Try again in a second.');
-      }
-    }catch(e){ console.log('openChat error: ' + e.message); }
-  }
-</script>
 </body>
 </html>
