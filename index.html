@@ -74,13 +74,13 @@
   window.addEventListener("onEmbeddedMessagingReady", () => {
     console.log("⚡ onEmbeddedMessagingReady fired");
 
-    const code = getParam("recommendedPlanCode");
-    if (code) {
+    const planCode = getParam("recommendedPlanCode");
+    if (planCode) {
       embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
         // must match the Channel Variable Name you defined in Messaging Setup
-        "recommendedPlanCode": code
+        "recommendedPlanCode": "Test P10"
       });
-      console.log("🔒 setHiddenPrechatFields: recommendedPlanCode =", code);
+      console.log("🔒 setHiddenPrechatFields: recommendedPlanCode =", planCode);
 
       // optional: inspect what’s queued
       console.log("👀 getPrechatFields() →", embeddedservice_bootstrap.prechatAPI.getPrechatFields?.());
