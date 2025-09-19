@@ -64,49 +64,63 @@
   </div>
 
   <!-- 🔽 Paste the official Messaging web snippet from Salesforce here (verbatim) 🔽 -->
-  <script type='text/javascript'>
+	<script>
+  // Helper: read query param
+  function getParam(name) {
+    return new URLSearchParams(window.location.search).get(name);
+  }
 
-	  function getUrlParam(name) {
-    	const params = new URLSearchParams(window.location.search);
-  		return params.get(name);
-		}
+  // Register the listener BEFORE bootstrap loads, so we never miss the event
+  window.addEventListener("onEmbeddedMessagingReady", () => {
+    console.log("⚡ onEmbeddedMessagingReady fired");
 
-	function initEmbeddedMessaging() {
-		try {
-			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
-			embeddedservice_bootstrap.settings.enableUserInputForConversationWithBot = false;
-			embeddedservice_bootstrap.settings.disableStreamingResponses = true;   
+    const code = getParam("recommendedPlanCode");
+    if (code) {
+      embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+        // must match the Channel Variable Name you defined in Messaging Setup
+        recommendedPlanCode: code
+      });
+      console.log("🔒 setHiddenPrechatFields: recommendedPlanCode =", code);
 
+      // optional: inspect what’s queued
+      console.log("👀 getPrechatFields() →", embeddedservice_bootstrap.prechatAPI.getPrechatFields?.());
+    } else {
+      console.log("ℹ️ No recommendedPlanCode in URL");
+    }
+  });
 
-			 // Read from URL and inject into hidden prechat field for recommended plan code sent in CTA URL
-		    document.addEventListener("onEmbeddedMessagingReady", function() {
-			  console.log("⚡ MIAW bootstrap ready");
-			  
-			  const planCode = getUrlParam("recommendedPlanCode");
-			  console.log("plan code is: " + planCode);
-			  if (planCode) {
-			    embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-			      recommendedPlanCode: planCode   // must equal the Channel Variable Name in Setup
-			    });
-			    console.log("🔒 Hidden prechat set: recommendedPlanCode = " + planCode);
-			  }
-			});
+  // Init called when bootstrap loads
+  function initEmbeddedMessaging() {
+    try {
+      console.log("→ initEmbeddedMessaging()");
+      embeddedservice_bootstrap.settings.language = "en_US";
+      embeddedservice_bootstrap.settings.enableUserInputForConversationWithBot = false;
+      embeddedservice_bootstrap.settings.disableStreamingResponses = true;
 
+      embeddedservice_bootstrap.init(
+        "00DOg000001Vluv",   // Org ID
+        "ONZ_Messaging_Web", // Deployment API name
+        "https://onz--dcaidev.sandbox.my.site.com/ESWONZMessagingWeb1757919743068",
+        { scrt2URL: "https://onz--dcaidev.sandbox.my.salesforce-scrt.com" }
+      );
+      console.log("✅ init() called");
+    } catch (err) {
+      console.error("❌ init error:", err);
+    }
+  }
 
-
-			embeddedservice_bootstrap.init(
-				'00DOg000001Vluv',
-				'ONZ_Messaging_Web',
-				'https://onz--dcaidev.sandbox.my.site.com/ESWONZMessagingWeb1757919743068',
-				{
-					scrt2URL: 'https://onz--dcaidev.sandbox.my.salesforce-scrt.com'
-				}
-			);
-		} catch (err) {
-			console.error('Error loading Embedded Messaging: ', err);
-		}
-	};
+  // Button handler
+  function openChat() {
+    if (embeddedservice_bootstrap?.utilAPI?.openChat) {
+      embeddedservice_bootstrap.utilAPI.openChat();
+      console.log("🟢 openChat() invoked");
+    } else {
+      console.log("⏳ utilAPI not ready yet");
+    }
+  }
 </script>
+
+
 <script type='text/javascript' src='https://onz--dcaidev.sandbox.my.site.com/ESWONZMessagingWeb1757919743068/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 
 
