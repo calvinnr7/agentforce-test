@@ -74,7 +74,14 @@
   window.addEventListener("onEmbeddedMessagingReady", () => {
     console.log("⚡ onEmbeddedMessagingReady fired");
 
-    const planCode = getParam("recommendedPlanCode");
+	  const QUERY_KEYS = {
+      plan: "pid"
+      };
+
+      //Fetch the pid if sent in the CTA URL
+	  const planCode = getParam(QUERY_KEYS.plan);
+
+   
     if (planCode) {
       embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
         // must match the Channel Variable Name you defined in Messaging Setup
