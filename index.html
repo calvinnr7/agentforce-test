@@ -158,14 +158,15 @@
   }
 
   // Button handler
-  function openChat() {
-    if (embeddedservice_bootstrap?.utilAPI?.openChat) {
-      embeddedservice_bootstrap.utilAPI.openChat();
-      console.log("🟢 openChat() invoked");
-    } else {
-      console.log("⏳ utilAPI not ready yet");
-    }
+function openChat() {
+  if (embeddedservice_bootstrap?.utilAPI?.launchChat) {
+    embeddedservice_bootstrap.utilAPI.launchChat()
+      .then(() => console.log("🟢 launchChat() invoked"))
+      .catch(err => console.error("❌ launchChat() error:", err));
+  } else {
+    console.log("⏳ utilAPI not ready yet");
   }
+}
 </script>
 
 <script type='text/javascript' src='https://onz--dcaidev.sandbox.my.site.com/ESWONZMessagingWeb1757919743068/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
