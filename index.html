@@ -119,9 +119,13 @@
       plan: "pid"
       };
 
-      //Fetch the pid if sent in the CTA URL
-    const planCode = getParam(QUERY_KEYS.plan);
+    
 
+    const DEFAULT_PLAN_CODE = "p";  // deafault plan if PID not passed. 
+
+    //Fetch the pid if sent in the CTA URL or use the Default
+  
+    const planCode = getParam(QUERY_KEYS.plan) || DEFAULT_PLAN_CODE;
     
     if (planCode) {
       embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
