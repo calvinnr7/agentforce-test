@@ -188,7 +188,7 @@ function openChat() {
   // Establish Broadcast channel to sync closing the modal across tabs
   const afbc = new BroadcastChannel('agentforcemodals');
 
-  const TIMEOUT_VALUE = 1800000; // 30 minutes in milliseconds
+  const TIMEOUT_VALUE = 60000; // 1 minute in milliseconds
   const SESSION_CLEAR_TIMEOUT = 10000; // 10 seconds in milliseconds
   
   let afwarn;  // Timer for the warning
@@ -196,7 +196,7 @@ function openChat() {
 
   // --- Functions to show/hide modal and end session ---
 
-  // Function called after 30 minutes of inactivity
+  // Function called after 1 minute of inactivity
   function afshowwarning() {
     console.log('Inactivity warning triggered.');
     afmodal.style.display = "block";
@@ -224,8 +224,8 @@ function openChat() {
     clearTimeout(afwarn);
     clearTimeout(afclear);
     afmodal.style.display = "none";
-    // Start the 30-minute warning timer
-    afwarn = setTimeout(afshowwarning, TIMEOUT_VALUE); // 30 minutes
+    // Start the 1-minute warning timer
+    afwarn = setTimeout(afshowwarning, TIMEOUT_VALUE); // 1 minute
   }
 
   // --- Event Listeners to Detect User Activity ---
