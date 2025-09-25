@@ -86,9 +86,9 @@
     cursor: pointer;
   }
 
-  /* to fix double scroll issue */
+  /* Fix double scroll issue */
   .embeddedMessagingLiveRegion {
-    height: 0px !important
+    height: 0 !important;
   }
   /* --- END OF ADDED CSS --- */
 </style>
@@ -117,13 +117,11 @@
 
     const QUERY_KEYS = {
       plan: "pid"
-      };
+    };
 
-    
+    const DEFAULT_PLAN_CODE = "p"; // Default plan if PID not passed
 
-    const DEFAULT_PLAN_CODE = "p";  // deafault plan if PID not passed. 
-
-    //Fetch the pid if sent in the CTA URL or use the Default
+    // Fetch the pid if sent in the CTA URL or use the Default
   
     const planCode = getParam(QUERY_KEYS.plan) || DEFAULT_PLAN_CODE;
     
@@ -190,18 +188,21 @@ function openChat() {
   // Establish Broadcast channel to sync closing the modal across tabs
   const afbc = new BroadcastChannel('agentforcemodals');
 
+  const TIMEOUT_VALUE = 1800000; // 30 minutes in milliseconds
+  const SESSION_CLEAR_TIMEOUT = 10000; // 10 seconds in milliseconds
+  
   let afwarn;  // Timer for the warning
   let afclear; // Timer for ending the session
 
   // --- Functions to show/hide modal and end session ---
 
-  // Function called after 20 seconds of inactivity
+  // Function called after 30 minutes of inactivity
   function afshowwarning() {
     console.log('Inactivity warning triggered.');
     afmodal.style.display = "block";
     // Set a 10-second timer to end the session
     clearTimeout(afclear);
-    afclear = setTimeout(afclearsession, 10000); // 10 seconds
+    afclear = setTimeout(afclearsession, SESSION_CLEAR_TIMEOUT); // 10 seconds
   }
 
   // Function called 10 seconds after the warning
@@ -220,11 +221,11 @@ function openChat() {
   
   // Function to reset all inactivity timers
   function resetInactivityTimers() {
-      clearTimeout(afwarn);
-      clearTimeout(afclear);
-      afmodal.style.display = "none";
-      // Start the 20-second warning timer
-      afwarn = setTimeout(afshowwarning, 600000); // 20 seconds
+    clearTimeout(afwarn);
+    clearTimeout(afclear);
+    afmodal.style.display = "none";
+    // Start the 30-minute warning timer
+    afwarn = setTimeout(afshowwarning, TIMEOUT_VALUE); // 30 minutes
   }
 
   // --- Event Listeners to Detect User Activity ---
@@ -270,8 +271,8 @@ function openChat() {
   // Listen for messages from other tabs
   afbc.onmessage = function (ev) {
     if (ev.data && ev.data.msg === 'CLEARMODALS') {
-        console.log('Clearing modal from another tab event.');
-        resetInactivityTimers();
+      console.log('Clearing modal from another tab event.');
+      resetInactivityTimers();
     }
   }
 </script>
