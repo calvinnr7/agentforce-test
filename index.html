@@ -188,7 +188,7 @@ function openChat() {
   // Establish Broadcast channel to sync closing the modal across tabs
   const afbc = new BroadcastChannel('agentforcemodals');
 
-  const TIMEOUT_VALUE = 60000; // 1 minute in milliseconds
+  const TIMEOUT_VALUE = 1800000; // 30 minute in milliseconds
   const SESSION_CLEAR_TIMEOUT = 10000; // 10 seconds in milliseconds
   
   let afwarn;  // Timer for the warning
