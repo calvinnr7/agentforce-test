@@ -47,50 +47,10 @@
     color:#111;
   }
 
-  /* --- ADDED CSS FOR MODAL --- */
-  /* The Modal (background) */
-  .afmodal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 9999; /* Sit on top of everything */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
-
-  /* Modal Content/Box */
-  .afmodal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%; /* Could be more or less, depending on screen size */
-    border-radius: 8px;
-  }
-
-  /* The Close Button */
-  .afclose {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-
-  .afclose:hover,
-  .afclose:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
   /* Fix double scroll issue */
   .embeddedMessagingLiveRegion {
     height: 0 !important;
   }
-  /* --- END OF ADDED CSS --- */
 </style>
 
 </head>
@@ -122,7 +82,7 @@
     const DEFAULT_PLAN_CODE = "p"; // Default plan if PID not passed
 
     // Fetch the pid if sent in the CTA URL or use the Default
-  
+    
     const planCode = getParam(QUERY_KEYS.plan) || DEFAULT_PLAN_CODE;
     
     if (planCode) {
@@ -148,7 +108,7 @@
       embeddedservice_bootstrap.settings.disableStreamingResponses = true;
 
       embeddedservice_bootstrap.init(
-        "00DOg000001Vluv",   // Org ID
+        "00DOg000001Vluv",    // Org ID
         "ONZ_Messaging_Web", // Deployment API name
         "https://onz--dcaidev.sandbox.my.site.com/ESWONZMessagingWeb1757919743068",
         { scrt2URL: "https://onz--dcaidev.sandbox.my.salesforce-scrt.com" }
@@ -173,108 +133,5 @@ function openChat() {
 
 <script type='text/javascript' src='https://onz--dcaidev.sandbox.my.site.com/ESWONZMessagingWeb1757919743068/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 
-
-<div id="afwarningModal" class="afmodal">
-  <div class="afmodal-content">
-    <span class="afclose">&times;</span>
-    <p>Are you still there? Your chat session will end in 10 seconds if there's no response.</p>
-  </div>
-</div>
-<script>
-  // Get the modal elements
-  const afmodal = document.getElementById("afwarningModal");
-  const afspan = document.getElementsByClassName("afclose")[0];
-
-  // Establish Broadcast channel to sync closing the modal across tabs
-  const afbc = new BroadcastChannel('agentforcemodals');
-
-  const TIMEOUT_VALUE = 1800000; // 30 minute in milliseconds
-  const SESSION_CLEAR_TIMEOUT = 10000; // 10 seconds in milliseconds
-  
-  let afwarn;  // Timer for the warning
-  let afclear; // Timer for ending the session
-
-  // --- Functions to show/hide modal and end session ---
-
-  // Function called after 30 minute of inactivity
-  function afshowwarning() {
-    console.log('Inactivity warning triggered.');
-    afmodal.style.display = "block";
-    // Set a 10-second timer to end the session
-    clearTimeout(afclear);
-    afclear = setTimeout(afclearsession, SESSION_CLEAR_TIMEOUT); // 10 seconds
-  }
-
-  // Function called 10 seconds after the warning
-  function afclearsession() {
-    console.log('Ending session due to inactivity.');
-    if (embeddedservice_bootstrap && embeddedservice_bootstrap.userVerificationAPI) {
-      embeddedservice_bootstrap.userVerificationAPI.clearSession(true)
-        .then(() => console.log('Session cleared successfully.'))
-        .catch((error) => console.error('Error clearing session:', error));
-    }
-    // Hide modal and clear all timers
-    afmodal.style.display = "none";
-    clearTimeout(afwarn);
-    clearTimeout(afclear);
-  }
-  
-  // Function to reset all inactivity timers
-  function resetInactivityTimers() {
-    clearTimeout(afwarn);
-    clearTimeout(afclear);
-    afmodal.style.display = "none";
-    // Start the 1-minute warning timer
-    afwarn = setTimeout(afshowwarning, TIMEOUT_VALUE); // 1 minute
-  }
-
-  // --- Event Listeners to Detect User Activity ---
-
-  // When the conversation starts, begin the timer
-  window.addEventListener('onEmbeddedMessagingConversationStarted', function (e) {
-    console.log('Conversation started. Starting inactivity timer.');
-    resetInactivityTimers();
-  }, false);
-
-  // When a message is sent (by user or agent), reset the timer
-  window.addEventListener('onEmbeddedMessageSent', function (e) {
-    console.log('Message sent. Resetting inactivity timer.');
-    resetInactivityTimers();
-  }, false);
-
-  // If the user closes the chat window, end the session immediately
-  window.addEventListener('onEmbeddedMessagingWindowClosed', function(e) {
-    console.log('Chat window closed, clearing session and timers.');
-    afclearsession();
-  }, false);
-
-  // --- Modal Interaction Logic ---
-
-  // If the user clicks the 'x' on the modal, reset the timer
-  afspan.onclick = function() {
-    console.log('User closed modal. Resetting inactivity timer.');
-    resetInactivityTimers();
-    // Tell other tabs to close the modal too
-    afbc.postMessage({ msg: 'CLEARMODALS' });
-  }
-
-  // If the user clicks outside the modal, treat it as activity and reset the timer
-  window.onclick = function(event) {
-    if (event.target == afmodal) {
-      console.log('User clicked outside modal. Resetting inactivity timer.');
-      resetInactivityTimers();
-      // Tell other tabs to close the modal too
-      afbc.postMessage({ msg: 'CLEARMODALS' });
-    }
-  }
-
-  // Listen for messages from other tabs
-  afbc.onmessage = function (ev) {
-    if (ev.data && ev.data.msg === 'CLEARMODALS') {
-      console.log('Clearing modal from another tab event.');
-      resetInactivityTimers();
-    }
-  }
-</script>
 </body>
 </html>
