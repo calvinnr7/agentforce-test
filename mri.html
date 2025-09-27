@@ -105,11 +105,11 @@
 
   // FIX: Workaround to hide keyboard on Android after a bot message
   //const isAndroid = /Android/i.test(navigator.userAgent);
-  //if (isAndroid) {
+  if (isAndroid) {
     window.addEventListener("onEmbeddedMessageSent", (event) => {
 		console.log(event.detail);
-		console.log(event.detail.sender);
-		console.log(event.detail.sender.role);
+		console.log(event.detail.conversationEntry.sender);
+		console.log(event.detail.conversationEntry.sender.role);
       // Use optional chaining (?.) for safer property access
       if (event.detail?.sender?.role === "Chatbot") {
         console.log("Bot message detected on Android. Hiding keyboard.");
@@ -122,7 +122,7 @@
         }, 2000);
       }
     });
-  //}
+  }
   
   // ===================================================================
   // == NEWLY ADDED CODE ENDS HERE =====================================
