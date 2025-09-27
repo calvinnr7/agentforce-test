@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>Agentforce Test – GitHub Pages MRI </title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport">
   
   <meta name="robots" content="noindex,nofollow" />
   <meta http-equiv="Content-Security-Policy"
@@ -51,7 +51,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page 1241abc</h1>
+    <h1>Agentforce (MIAW) – Test Page 1241abcxyz</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -101,7 +101,7 @@
   // FIX: Workaround to hide keyboard on Android after a bot message
 
 	const viewportMeta = document.querySelector('meta[name="viewport"]');
-	viewportMeta.setAttribute('interactive-widget', 'resizes-visual');
+	viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1, minimum-scale=1, interactive-widget=resizes-content');
   const isAndroid = /Android/i.test(navigator.userAgent);
   if (isAndroid) {
     // Listen for when a message is RECEIVED, not sent
