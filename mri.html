@@ -56,7 +56,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir abc</h1>
+    <h1>Agentforce (MIAW) – Test Page munawir 123</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -107,6 +107,8 @@
   //const isAndroid = /Android/i.test(navigator.userAgent);
   //if (isAndroid) {
     window.addEventListener("onEmbeddedMessageSent", (event) => {
+		console.log(event.detail);
+		console.log(event.detail.sender);
 		console.log(event.detail.sender.role);
       // Use optional chaining (?.) for safer property access
       if (event.detail?.sender?.role === "Chatbot") {
