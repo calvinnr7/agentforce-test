@@ -56,7 +56,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir 123</h1>
+    <h1>Agentforce (MIAW) – Test Page munawir abc</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -110,7 +110,7 @@
 		console.log(event.detail.conversationEntry.sender);
 		console.log(event.detail.conversationEntry.sender.role);
       // Use optional chaining (?.) for safer property access
-      if (event.detail?.sender?.role === "Chatbot") {
+      if (event.detail?.conversationEntry?.sender?.role === "Chatbot") {
         console.log("Bot message detected on Android. Hiding keyboard.");
         setTimeout(() => {
           // Get the currently focused element and remove focus to hide keyboard
