@@ -1,178 +1,139 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Agentforce Test – GitHub Pages MRI </title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
-  
-  <meta name="robots" content="noindex,nofollow" />
-  <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self' https: data: blob:;
-             script-src 'self' https: 'unsafe-inline' 'unsafe-eval';
-             connect-src 'self' https: wss:;
-             img-src 'self' https: data: blob:;
-             style-src 'self' 'unsafe-inline' https:;
-             frame-src https:;
-             font-src 'self' https: data:;">
+  <meta charset="utf-8" />
+  <title>Agentforce Test – GitHub Pages MRI </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=overlays-content">
+  
+  <meta name="robots" content="noindex,nofollow" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self' https: data: blob:;
+             script-src 'self' https: 'unsafe-inline' 'unsafe-eval';
+             connect-src 'self' https: wss:;
+             img-src 'self' https: data: blob:;
+             style-src 'self' 'unsafe-inline' https:;
+             frame-src https:;
+             font-src 'self' https: data:;">
 <style>
-  :root{
-    --brand-green-light: #bfeee1;  /* very light mint */
-    --brand-green:       #0AA373;  /* your brand green */
-    --brand-green-dark:  #0A855F;  /* deeper green */
-  }
+  :root{
+    --brand-green-light: #bfeee1;  /* very light mint */
+    --brand-green:       #0AA373;  /* your brand green */
+    --brand-green-dark:  #0A855F;  /* deeper green */
+  }
 
-  body{
-    margin:0;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
 
-    /* Top → bottom linear gradient (light to dark) */
-    background: linear-gradient(
-      180deg,
-      var(--brand-green-light) 0%,
-      var(--brand-green) 45%,
-      var(--brand-green-dark) 100%
-    );
-  }
+    /* Top → bottom linear gradient (light to dark) */
+    background: linear-gradient(
+      180deg,
+      var(--brand-green-light) 0%,
+      var(--brand-green) 45%,
+      var(--brand-green-dark) 100%
+    );
+  }
 
-  .card{
-    background:#fff;
-    border-radius:16px;
-    padding:24px;
-    max-width:760px; width:90%;
-    box-shadow:0 12px 28px rgba(0,0,0,.25);
-    color:#111;
-  }
+  .card{
+    background:#fff;
+    border-radius:16px;
+    padding:24px;
+    max-width:760px; width:90%;
+    box-shadow:0 12px 28px rgba(0,0,0,.25);
+    color:#111;
+  }
 
-  /* Fix double scroll issue */
-  .embeddedMessagingLiveRegion {
-    height: 0 !important;
-  }
+  /* Fix double scroll issue */
+  .embeddedMessagingLiveRegion {
+    height: 0 !important;
+  }
 </style>
 
 </head>
 <body>
-  <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir asdf</h1>
-    <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
-    <p>
-      <button onclick="openChat()">Open Chat</button>
-      <button onclick="location.reload()">Hard Refresh</button>
-    </p>
-    <pre id="log" class="muted"></pre>
-  </div>
+  <div class="card">
+    <h1>Agentforce (MIAW) – Test Page munawir abc</h1>
+    <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
+    <p>
+      <button onclick="openChat()">Open Chat</button>
+      <button onclick="location.reload()">Hard Refresh</button>
+    </p>
+    <pre id="log" class="muted"></pre>
+  </div>
 
-  <script>
-  // --- FIX START ---
-  // Flag to ensure we only apply the keyboard listeners once.
-  let isKeyboardFixApplied = false;
-  // --- FIX END ---
+  <script>
+  // Helper: read query param
+  function getParam(name) {
+    return new URLSearchParams(window.location.search).get(name);
+  }
 
-  // Helper: read query param
-  function getParam(name) {
-    return new URLSearchParams(window.location.search).get(name);
-  }
+  // Register the listener BEFORE bootstrap loads, so we never miss the event
+  window.addEventListener("onEmbeddedMessagingReady", () => {
+    console.log("⚡ onEmbeddedMessagingReady fired");
 
-  // Register the listener BEFORE bootstrap loads, so we never miss the event
-  window.addEventListener("onEmbeddedMessagingReady", () => {
-    console.log("⚡ onEmbeddedMessagingReady fired");
+    const QUERY_KEYS = {
+      plan: "pid"
+    };
 
-    const QUERY_KEYS = {
-      plan: "pid"
-    };
+    const DEFAULT_PLAN_CODE = "p"; // Default plan if PID not passed
 
-    const DEFAULT_PLAN_CODE = "p"; // Default plan if PID not passed
+    // Fetch the pid if sent in the CTA URL or use the Default
+    
+    const planCode = getParam(QUERY_KEYS.plan) || DEFAULT_PLAN_CODE;
+    
+    if (planCode) {
+      embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+        // must match the Channel Variable Name you defined in Messaging Setup
+        "recommendedPlanCode": planCode
+      });
+      console.log("🔒 setHiddenPrechatFields: recommendedPlanCode =", planCode);
 
-    // Fetch the pid if sent in the CTA URL or use the Default
-    
-    const planCode = getParam(QUERY_KEYS.plan) || DEFAULT_PLAN_CODE;
-    
-    if (planCode) {
-      embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-        // must match the Channel Variable Name you defined in Messaging Setup
-        "recommendedPlanCode": planCode
-      });
-      console.log("🔒 setHiddenPrechatFields: recommendedPlanCode =", planCode);
+      // optional: inspect what's queued
+      console.log("👀 getPrechatFields() →", embeddedservice_bootstrap.prechatAPI.getPrechatFields?.());
+    } else {
+      console.log("ℹ️ No recommendedPlanCode in URL");
+    }
+  });
 
-      // optional: inspect what’s queued
-      console.log("👀 getPrechatFields() →", embeddedservice_bootstrap.prechatAPI.getPrechatFields?.());
-    } else {
-      console.log("ℹ️ No recommendedPlanCode in URL");
-    }
-  });
+  // Init called when bootstrap loads
+  function initEmbeddedMessaging() {
+    try {
+      console.log("→ initEmbeddedMessaging()");
+      embeddedservice_bootstrap.settings.language = "en_US";
+      embeddedservice_bootstrap.settings.enableUserInputForConversationWithBot = false;
+      embeddedservice_bootstrap.settings.disableStreamingResponses = true;
 
-  // Init called when bootstrap loads
-  function initEmbeddedMessaging() {
-    try {
-      console.log("→ initEmbeddedMessaging()");
-      embeddedservice_bootstrap.settings.language = "en_US";
-      embeddedservice_bootstrap.settings.enableUserInputForConversationWithBot = false;
-      embeddedservice_bootstrap.settings.disableStreamingResponses = true;
-
-      embeddedservice_bootstrap.init(
-        '00DOg000001Vluv',
+      embeddedservice_bootstrap.init(
+        '00DOg000001Vluv',
 				'MRI_Messaging_UI',
 				'https://onz--dcaidev.sandbox.my.site.com/ESWMRIMessagingUI1758773345576',
 				{
 					scrt2URL: 'https://onz--dcaidev.sandbox.my.salesforce-scrt.com'
 				}
 			);
-      console.log("✅ init() called");
-    } catch (err) {
-      console.error("❌ init error:", err);
-    }
-  }
+      console.log("✅ init() called");
+    } catch (err) {
+      console.error("❌ init error:", err);
+    }
+  }
 
-  // Button handler
+  // Button handler
 function openChat() {
-  if (embeddedservice_bootstrap?.utilAPI?.launchChat) {
-    embeddedservice_bootstrap.utilAPI.launchChat()
-      .then(() => {
-        console.log("🟢 launchChat() invoked");
-
-        // --- FIX START: Apply Android keyboard fix after chat is launched ---
-        if (isKeyboardFixApplied) return; // Don't run again if already applied
-
-        // Select the elements now that they exist in the DOM
-        const mainContainer = document.querySelector('#embedded-messaging');
-        const inputArea = document.querySelector('embeddedmessaging-input-footer');
-
-        if (!mainContainer || !inputArea) {
-            console.error("Keyboard Fix: Could not find chat elements.");
-            return;
-        }
-
-        // 1. Lock the main container height to prevent it from shrinking
-        const initialHeight = window.innerHeight;
-        mainContainer.style.height = `${initialHeight}px`;
-
-        // 2. Use VisualViewport API to move the input field above the keyboard
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', () => {
-                const newHeight = window.visualViewport.height;
-                // Calculate keyboard height (with a threshold to avoid minor resizes)
-                const keyboardHeight = (initialHeight - newHeight > 100) ? (initialHeight - newHeight) : 0;
-                
-                // Use transform to move the input area
-                inputArea.style.transform = `translateY(-${keyboardHeight}px)`;
-            });
-        }
-        
-        isKeyboardFixApplied = true; // Set flag to prevent re-running
-        console.log("🛠️ Android keyboard layout fix applied.");
-        // --- FIX END ---
-      })
-      .catch(err => console.error("❌ launchChat() error:", err));
-  } else {
-    console.log("⏳ utilAPI not ready yet");
-  }
+  if (embeddedservice_bootstrap?.utilAPI?.launchChat) {
+    embeddedservice_bootstrap.utilAPI.launchChat()
+      .then(() => console.log("🟢 launchChat() invoked"))
+      .catch(err => console.error("❌ launchChat() error:", err));
+  } else {
+    console.log("⏳ utilAPI not ready yet");
+  }
 }
 </script>
 
-<script type='text/javascript' src='https://onz--dcaidev.sandbox.my.site.com/ESWMRIMessagingUI1758773345576/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+<script type='text/javascript' src='https://onz--dcaidev.sandbox.my.site.com/ESWONZMessagingWeb1757919743068/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 
 </body>
 </html>
