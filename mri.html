@@ -75,7 +75,11 @@
 	  //TO BE ADDED TO THE CONTAINER PAGE
 	  window.addEventListener("onEmbeddedMessageSent", (event) => {
 		  console.log('a');
-		  //document.activeElement.blur();
+		  setTimeout(() => {
+                // Get the currently focused element
+                const activeElement = document.activeElement;
+                activeElement.blur();
+            }, 2000);
 	  });
   window.addEventListener("onEmbeddedMessagingReady", () => {
     console.log("⚡ onEmbeddedMessagingReady fired");
