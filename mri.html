@@ -101,7 +101,7 @@
   // FIX: Workaround to hide keyboard on Android after a bot message
 
 	const viewportMeta = document.querySelector('meta[name="viewport"]');
-	viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1, minimum-scale=1, interactive-widget=resizes-content');
+	viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1, minimum-scale=1, interactive-widget=resizes-visual');
   const isAndroid = /Android/i.test(navigator.userAgent);
   if (isAndroid) {
     // Listen for when a message is RECEIVED, not sent
