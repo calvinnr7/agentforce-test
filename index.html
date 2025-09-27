@@ -98,6 +98,32 @@
       console.log("ℹ️ No recommendedPlanCode in URL");
     }
   });
+    // ===================================================================
+    // == NEWLY ADDED CODE STARTS HERE ===================================
+    // ===================================================================
+    // FIX: Workaround to hide keyboard on Android after a bot message
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    if (isAndroid) {
+      window.addEventListener("onEmbeddedMessageSent", (event) => {
+  		console.log(event.detail);
+  		console.log(event.detail.conversationEntry.sender);
+  		console.log(event.detail.conversationEntry.sender.role);
+        // Use optional chaining (?.) for safer property access
+        if (event.detail?.conversationEntry?.sender?.role === "Chatbot") {
+          console.log("Bot message detected on Android. Hiding keyboard.");
+          setTimeout(() => {
+            // Get the currently focused element and remove focus to hide keyboard
+            const activeElement = document.activeElement;
+            if (activeElement && activeElement.blur) {
+              activeElement.blur();
+            }
+          }, 500);
+        }
+      });
+    }
+    // ===================================================================
+    // == NEWLY ADDED CODE ENDS HERE =====================================
+    // ===================================================================
 
   // Init called when bootstrap loads
   function initEmbeddedMessaging() {
