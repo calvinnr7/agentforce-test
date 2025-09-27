@@ -72,6 +72,10 @@
   }
 
   // Register the listener BEFORE bootstrap loads, so we never miss the event
+	  //TO BE ADDED TO THE CONTAINER PAGE
+	  window.addEventListener("onEmbeddedMessageSent", (event) => {
+		  document.activeElement.blur();
+	  });
   window.addEventListener("onEmbeddedMessagingReady", () => {
     console.log("⚡ onEmbeddedMessagingReady fired");
 
