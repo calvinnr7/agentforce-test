@@ -56,7 +56,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir 1233</h1>
+    <h1>Agentforce (MIAW) – Test Page munawir 1234</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -71,19 +71,20 @@
     return new URLSearchParams(window.location.search).get(name);
   }
 
-  // Register the listener BEFORE bootstrap loads, so we never miss the event
-	  //TO BE ADDED TO THE CONTAINER PAGE
-	  window.addEventListener("onEmbeddedMessageSent", (event) => {
-		  console.log('event',event.detail);
-		  const isAndroid = /Android/i.test(navigator.userAgent);
-		  if (isAndroid) {
-			  setTimeout(() => {
-				  // Get the currently focused element
-				  const activeElement = document.activeElement;
-				  activeElement.blur();
-			  }, 1000)
-        }
-	  });
+	  //ADD THIS
+	  const isAndroid = /Android/i.test(navigator.userAgent);
+	  if (isAndroid) {
+		  window.addEventListener("onEmbeddedMessageSent", (event) => {
+			  console.log('event',event.detail);
+			  if(event.detail.sender.role === "Chatbot"){
+				  setTimeout(() => {
+					  // Get the currently focused element
+					  const activeElement = document.activeElement;
+					  activeElement.blur();
+				  }, 1000)
+			  }
+		  }
+	}
   window.addEventListener("onEmbeddedMessagingReady", () => {
     console.log("⚡ onEmbeddedMessagingReady fired");
 
