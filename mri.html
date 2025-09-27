@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Agentforce Test – GitHub Pages MRI </title>
+  <title>Agentforce Test – GitHub Pages MRI 1</title>
   <meta name="viewport">
   
   <meta name="robots" content="noindex,nofollow" />
@@ -104,8 +104,6 @@
     // Listen for when a message is RECEIVED, not sent
     window.addEventListener("onEmbeddedMessageReceived", (event) => {
       // Check if the message came from the 'BOT'
-      if (event.detail?.conversationEntry?.sender?.role === 'Chatbot') {
-        console.log("🤖 Bot message received on Android, hiding keyboard.");
         setTimeout(() => {
           // Get the currently focused element and remove focus to hide keyboard
           const activeElement = document.activeElement;
@@ -113,7 +111,7 @@
             activeElement.blur();
           }
         }, 500); // A small delay can help ensure the UI has updated
-      }
+      
     });
   }
 
