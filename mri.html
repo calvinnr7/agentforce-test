@@ -68,7 +68,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir 6</h1>
+    <h1>Agentforce (MIAW) – Test Page munawir</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -84,17 +84,13 @@
   }
 	const isAndroid = /Android/i.test(navigator.userAgent);
 	if (isAndroid) {
+		//Blur android keyboard
 		window.addEventListener("onEmbeddedMessageReceived", (event) => {
-	        setTimeout(() => {
-	          // Get the currently focused element and remove focus to hide keyboard
-	          const activeElement = document.activeElement;
-				activeElement.blur();
-	        }, 500);
-	      
+			const activeElement = document.activeElement;
+			activeElement.blur();
 	    });
 	}
 	
-
   // Register the listener BEFORE bootstrap loads, so we never miss the event
   window.addEventListener("onEmbeddedMessagingReady", () => {
     console.log("⚡ onEmbeddedMessagingReady fired");
@@ -126,15 +122,6 @@
   // ===================================================================
   // == NEWLY ADDED CODE STARTS HERE ===================================
   // ===================================================================
-
-  // FIX: Workaround to hide keyboard on Android after a bot message
-	window.addEventListener("onEmbeddedMessageSent", (event) => {
-  document.activeElement.blur();
-});
-  /*if (isAndroid) {
-    // Listen for when a message is RECEIVED, not sent
-    
-  }*/
 
   
   // ===================================================================
