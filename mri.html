@@ -68,7 +68,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir</h1>
+    <h1>Agentforce (MIAW) – Test Page munawir 123</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -118,6 +118,11 @@
       console.log("ℹ️ No recommendedPlanCode in URL");
     }
   });
+
+	window.addEventListener("onEmbeddedMessagingConversationStarted", (event) => {
+	  myConversationId = event.detail.conversationId;
+	  console.log("Step 1: Conversation ID has been captured:", myConversationId);
+	});
 
   // ===================================================================
   // == NEWLY ADDED CODE STARTS HERE ===================================
