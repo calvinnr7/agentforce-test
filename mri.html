@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Agentforce Test – GitHub Pages MRI 1</title>
+  <title>Agentforce Test – GitHub Pages MRI 2</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0/> <!--INCLUDE ON DEPLOYMENT -->
   
   <meta name="robots" content="noindex,nofollow" />
@@ -121,6 +121,7 @@
 
 	window.addEventListener("onEmbeddedMessagingConversationStarted", (event) => {
 	  myConversationId = event.detail.conversationId;
+		localStorage.setItem('myApp_conversationId', myConversationId);
 	  console.log("Step 1: Conversation ID has been captured:", myConversationId);
 	});
 
