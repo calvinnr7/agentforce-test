@@ -68,7 +68,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir 123</h1>
+    <h1>Agentforce (MIAW) – Test Page munawir</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -120,8 +120,7 @@
   });
 
 	window.addEventListener("onEmbeddedMessagingConversationStarted", (event) => {
-	  myConversationId = event.detail.conversationId;
-		localStorage.setItem('myApp_conversationId', myConversationId);
+		window.localStorage.setItem("ConversationId",event.detail.conversationId);
 	  console.log("Step 1: Conversation ID has been captured:", myConversationId);
 	});
 
