@@ -83,7 +83,7 @@
     return new URLSearchParams(window.location.search).get(name);
   }
 
-	window.addEventListner("onEmbeddedMessageSent", (event) => {
+	window.addEventListener("onEmbeddedMessageSent", (event) => {
 		console.log("onEmbeddedMessageSent", event);
 	});
 	
