@@ -68,7 +68,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir 123</h1>
+    <h1>Agentforce (MIAW) – Test Page munawir abc</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -82,6 +82,16 @@
   function getParam(name) {
     return new URLSearchParams(window.location.search).get(name);
   }
+
+	window.addEventListener("onEmbeddedMessageSent", (event) => {
+		const resetTimeout = new CustomEvent('resetTimeout', {
+			  detail: {
+			    status: 'Success',
+			  }
+			});
+		window.dispatchEvent(resetTimeout);
+	});
+	
 	const isAndroid = /Android/i.test(navigator.userAgent);
 	if (isAndroid) {
 		//Blur android keyboard
@@ -118,20 +128,6 @@
       console.log("ℹ️ No recommendedPlanCode in URL");
     }
   });
-
-	window.addEventListener("onEmbeddedMessagingConversationStarted", (event) => {
-		window.localStorage.setItem("ConversationId",event.detail.conversationId);
-	  console.log("Step 1: Conversation ID has been captured:", event.detail.conversationId);
-	});
-
-  // ===================================================================
-  // == NEWLY ADDED CODE STARTS HERE ===================================
-  // ===================================================================
-
-  
-  // ===================================================================
-  // == NEWLY ADDED CODE ENDS HERE =====================================
-  // ===================================================================
 
 
   // Init called when bootstrap loads
