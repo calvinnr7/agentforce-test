@@ -119,20 +119,6 @@
     }
   });
 
-	window.addEventListener("onEmbeddedMessagingConversationStarted", (event) => {
-		window.localStorage.setItem("ConversationId",event.detail.conversationId);
-	  console.log("Step 1: Conversation ID has been captured:", event.detail.conversationId);
-	});
-
-  // ===================================================================
-  // == NEWLY ADDED CODE STARTS HERE ===================================
-  // ===================================================================
-
-  
-  // ===================================================================
-  // == NEWLY ADDED CODE ENDS HERE =====================================
-  // ===================================================================
-
 
   // Init called when bootstrap loads
   function initEmbeddedMessaging() {
