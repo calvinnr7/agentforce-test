@@ -68,7 +68,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir qwertyu</h1>
+    <h1>Agentforce (MIAW) – Test Page munawir 123</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -126,22 +126,36 @@
     // ===================================================================
     // FIX: Workaround to hide keyboard on Android after a bot message
     const isAndroid = /Android/i.test(navigator.userAgent);
-    if (isAndroid) {
-      window.addEventListener("onEmbeddedMessageSent", (event) => {
-		  event.preventDefault();
-		  event.stopImmediatePropagation();
-  		console.log(event.detail);
-  		console.log(event.detail.conversationEntry.sender);
-  		console.log(event.detail.conversationEntry.sender.role);
-			  setTimeout(() => {
-	            // Get the currently focused element and remove focus to hide keyboard
-	            const activeElement = document.activeElement;
-	            if (activeElement && activeElement.blur) {
-	              activeElement.blur();
-	            }
-	          }, 150);
-      });
-    }
+
+if (isAndroid) {
+  window.addEventListener("onEmbeddedMessageSent", (event) => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    console.log("Message sent:", event.detail);
+
+    setTimeout(() => {
+      // Find the specific textarea element.
+      // A data-id selector is often used in frameworks like Salesforce.
+	const iframe = embeddedservice_bootstrap.utilAPI.getEmbeddedMessagingFrame();
+		console.log(iframe);
+      const textArea = iframe.querySelector('textarea[data-id="embeddedMessagingInputFooterTextArea"]');
+
+      // Check if the textarea exists and is not already readonly
+      if (textArea && !textArea.readOnly) {
+        // 1. Make the textarea readonly to hide the keyboard
+        textArea.readOnly = true;
+
+        // 2. Add a new event listener that runs only ONCE for the next click
+        textArea.addEventListener('click', () => {
+          // When clicked, make it writable again
+          textArea.readOnly = false;
+          // Optionally, focus the element so the user can start typing
+          textArea.focus();
+        }, { once: true }); // This option ensures the listener is automatically removed after it runs
+      }
+    }, 150);
+  });
+}
     // ===================================================================
     // == NEWLY ADDED CODE ENDS HERE =====================================
     // ===================================================================
