@@ -128,7 +128,6 @@
     const isAndroid = /Android/i.test(navigator.userAgent);
     if (isAndroid) {
       window.addEventListener("onEmbeddedMessageSent", (event) => {
-		  console.log('event',event);
 		  event.preventDefault();
           setTimeout(() => {
             const activeElement = document.activeElement;
