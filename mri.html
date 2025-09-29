@@ -68,7 +68,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir abc</h1>
+    <h1>Agentforce (MIAW) – Test Page munawir</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -83,12 +83,13 @@
     return new URLSearchParams(window.location.search).get(name);
   }
 
-	window.addEventListener("onEmbeddedMessageSent", (event) => {
+	window.addEventListener("onEmbeddedMessageSent", () => {
 		const resetTimeout = new CustomEvent('resetTimeout', {
 			  detail: {
 			    status: 'Success',
 			  }
 			});
+		console.log('resetTimeout',resetTimeout);
 		window.dispatchEvent(resetTimeout);
 	});
 	
