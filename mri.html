@@ -82,16 +82,6 @@
   function getParam(name) {
     return new URLSearchParams(window.location.search).get(name);
   }
-
-	window.addEventListener("onEmbeddedMessageSent", () => {
-		const resetTimeout = new CustomEvent('resetTimeout', {
-			  detail: {
-			    status: 'Success',
-			  }
-			});
-		console.log('resetTimeout',resetTimeout);
-		window.dispatchEvent(resetTimeout);
-	});
 	
   // Register the listener BEFORE bootstrap loads, so we never miss the event
   window.addEventListener("onEmbeddedMessagingReady", () => {
