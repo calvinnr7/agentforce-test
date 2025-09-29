@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Agentforce Test – OneNZ Style</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,interactive-widget=overlays-content"/> <!--INCLUDE ON DEPLOYMENT -->
+  
+  <meta name="robots" content="noindex,nofollow" />
+  <!-- GitHub Pages optimized for Salesforce messaging -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self' https: data: blob:;
+             script-src 'self' https: 'unsafe-inline' 'unsafe-eval';
+             connect-src 'self' https: wss:;
+             img-src 'self' https: data: blob:;
+             style-src 'self' 'unsafe-inline' https:;
+             frame-src https:;
+             font-src 'self' https: data:;">
+<style>
+  :root{
+    --onz-green: #2d5a3d;  /* OneNZ dark green */
+    --onz-green-light: #00ff88;  /* Bright green for glowing effect */
+    --onz-green-medium: #4a9960;  /* Medium green for middle ring */
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--onz-green);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color: white;
+    position: relative;
+    margin: 0;
+    padding: 0;
+  }
+
+  .page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 80px; /* Account for fixed header */
+  }
+
+  /* OneNZ Navigation Header */
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    height: 60px;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .onz-logo {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #00ff88, #40e0d0);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-menu li {
+    position: relative;
+  }
+
+  .nav-link {
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 0;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .nav-link:hover {
+    color: var(--onz-green);
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .nav-icon {
+    width: 24px;
+    height: 24px;
+    background: #666;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-icon:hover {
+    background: var(--onz-green);
+  }
+
+  .search-icon {
+    width: 24px;
+    height: 24px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%23666" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>') no-repeat center;
+    background-size: 20px;
+    cursor: pointer;
+  }
+
+  .user-icon {
+    width: 24px;
+    height: 24px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%23666" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>') no-repeat center;
+    background-size: 20px;
+    cursor: pointer;
+  }
+
+  /* Main Content Container */
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 800px;
+    padding: 20px;
+    gap: 40px;
+  }
+
+  /* Glowing Circle Animation */
+  .glow-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .glow-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .glow-ring:nth-child(1) {
+    width: 60px;
+    height: 60px;
+    border-color: var(--onz-green-light);
+    animation-delay: 0s;
+    box-shadow: 0 0 20px var(--onz-green-light);
+  }
+
+  .glow-ring:nth-child(2) {
+    width: 100px;
+    height: 100px;
+    border-color: var(--onz-green-medium);
+    animation-delay: 0.5s;
+    box-shadow: 0 0 15px var(--onz-green-medium);
+  }
+
+  .glow-ring:nth-child(3) {
+    width: 140px;
+    height: 140px;
+    border-color: rgba(77, 153, 96, 0.6);
+    animation-delay: 1s;
+    box-shadow: 0 0 10px rgba(77, 153, 96, 0.6);
+  }
+
+  .glow-ring:nth-child(4) {
+    width: 180px;
+    height: 180px;
+    border-color: rgba(77, 153, 96, 0.3);
+    animation-delay: 1.5s;
+    box-shadow: 0 0 5px rgba(77, 153, 96, 0.3);
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(0.95); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.7; }
+    100% { transform: scale(0.95); opacity: 1; }
+  }
+
+  /* Continue Button Styling */
+  .continue-btn {
+    background: white;
+    color: var(--onz-green);
+    border: none;
+    border-radius: 25px;
+    padding: 12px 40px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    min-width: 160px;
+  }
+
+  .continue-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: #f8f8f8;
+  }
+
+  .continue-btn:active {
+    transform: translateY(0);
+  }
+
+  /* Description Text */
+  .description {
+    max-width: 600px;
+    line-height: 1.6;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 20px;
+  }
+
+  .description a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: underline;
+  }
+
+  .description a:hover {
+    color: white;
+  }
+
+  /* Debug/Dev Controls (Hidden by default) */
+  .dev-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    opacity: 0.1;
+    transition: opacity 0.3s ease;
+  }
+
+  .dev-controls:hover {
+    opacity: 1;
+  }
+
+  .dev-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .dev-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Fix double scroll issue */
+  .embeddedMessagingLiveRegion {
+    height: 0 !important;
+  }
+
+  /* Mobile Menu Toggle */
+  .mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 3px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .mobile-menu-toggle span {
+    width: 20px;
+    height: 2px;
+    background: #333;
+    transition: all 0.3s ease;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .header {
+      padding: 12px 16px;
+    }
+
+    .nav-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      flex-direction: column;
+      padding: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      gap: 16px;
+    }
+
+    .nav-menu.open {
+      display: flex;
+    }
+
+    .mobile-menu-toggle {
+      display: flex;
+    }
+
+    .nav-right {
+      gap: 12px;
+    }
+
+    .glow-container {
+      width: 150px;
+      height: 150px;
+    }
+
+    .glow-ring:nth-child(1) { width: 40px; height: 40px; }
+    .glow-ring:nth-child(2) { width: 70px; height: 70px; }
+    .glow-ring:nth-child(3) { width: 100px; height: 100px; }
+    .glow-ring:nth-child(4) { width: 130px; height: 130px; }
+
+    .description {
+      font-size: 13px;
+      max-width: 90%;
+    }
+
+    .page-container {
+      padding-top: 80px;
+    }
+  }
+</style>
+
+</head>
+<body>
+  <!-- OneNZ Navigation Header -->
+  <header class="header">
+    <div class="nav-left">
+      <div class="onz-logo" onclick="goHome()"></div>
+      
+      <nav>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="#" class="nav-link" onclick="return false;">Mobile</a></li>
+          <li><a href="#" class="nav-link" onclick="return false;">Broadband</a></li>
+          <li><a href="#" class="nav-link" onclick="return false;">5G</a></li>
+          <li><a href="#" class="nav-link" onclick="return false;">Rewards</a></li>
+          <li><a href="#" class="nav-link" onclick="return false;">Help</a></li>
+        </ul>
+      </nav>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <div class="search-icon" onclick="searchAction()" title="Search"></div>
+      <div class="user-icon" onclick="userAction()" title="Account"></div>
+    </div>
+  </header>
+
+  <!-- Main Page Container -->
+  <div class="page-container">
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Animated Glow Rings -->
+      <div class="glow-container">
+        <div class="glow-ring"></div>
+        <div class="glow-ring"></div>
+        <div class="glow-ring"></div>
+        <div class="glow-ring"></div>
+      </div>
+
+      <!-- Continue Button -->
+      <button class="continue-btn" onclick="openChat()">Continue</button>
+
+      <!-- Description Text -->
+      <div class="description">
+        We use AI to give you faster, personalised and accurate help whenever you need it. We always handle your data with care. You can learn more in our <a href="#" onclick="return false;">privacy policy</a> and <a href="#" onclick="return false;">AI Terms & Conditions</a>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Developer Controls (Hidden) -->
+  <div class="dev-controls">
+    <button class="dev-btn" onclick="location.reload()">Refresh</button>
+    <button class="dev-btn" onclick="console.clear()">Clear Log</button>
+  </div>
+
+  <script>
+  // Helper: read query param
+  function getParam(name) {
+    return new URLSearchParams(window.location.search).get(name);
+  }
+
+  // Register the listener BEFORE bootstrap loads, so we never miss the event
+  window.addEventListener("onEmbeddedMessagingReady", () => {
+    console.log("⚡ onEmbeddedMessagingReady fired");
+
+    const QUERY_KEYS = {
+      plan: "pid"
+    };
+
+    const DEFAULT_PLAN_CODE = "p"; // Default plan if PID not passed
+
+    // Fetch the pid if sent in the CTA URL or use the Default
+    
+    const planCode = getParam(QUERY_KEYS.plan) || DEFAULT_PLAN_CODE;
+    
+    if (planCode) {
+      embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+        // must match the Channel Variable Name you defined in Messaging Setup
+        "recommendedPlanCode": planCode
+      });
+      console.log("🔒 setHiddenPrechatFields: recommendedPlanCode =", planCode);
+
+      // optional: inspect what's queued
+      console.log("👀 getPrechatFields() →", embeddedservice_bootstrap.prechatAPI.getPrechatFields?.());
+    } else {
+      console.log("ℹ️ No recommendedPlanCode in URL");
+    }
+  });
+    // ===================================================================
+    // == NEWLY ADDED CODE STARTS HERE ===================================
+    // ===================================================================
+    // FIX: Workaround to hide keyboard on Android after a bot message
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    if (isAndroid) {
+      window.addEventListener("onEmbeddedMessageSent", (event) => {
+  		console.log(event.detail);
+  		console.log(event.detail.conversationEntry.sender);
+  		console.log(event.detail.conversationEntry.sender.role);
+        // Use optional chaining (?.) for safer property access
+        if (event.detail?.conversationEntry?.sender?.role === "Chatbot") {
+          console.log("Bot message detected on Android. Hiding keyboard.");
+          setTimeout(() => {
+            // Get the currently focused element and remove focus to hide keyboard
+            const activeElement = document.activeElement;
+            if (activeElement && activeElement.blur) {
+              activeElement.blur();
+            }
+          }, 500);
+        }
+      });
+    }
+    // ===================================================================
+    // == NEWLY ADDED CODE ENDS HERE =====================================
+    // ===================================================================
+
+  // Init called when bootstrap loads
+  function initEmbeddedMessaging() {
+    try {
+      console.log("→ initEmbeddedMessaging()");
+      embeddedservice_bootstrap.settings.language = "en_US";
+      embeddedservice_bootstrap.settings.enableUserInputForConversationWithBot = false;
+      embeddedservice_bootstrap.settings.disableStreamingResponses = true;
+
+      embeddedservice_bootstrap.init(
+        "00DOg000001Vluv",    // Org ID
+        "ONZ_Messaging_Web", // Deployment API name
+        "https://onz--dcaidev.sandbox.my.site.com/ESWONZMessagingWeb1757919743068",
+        { scrt2URL: "https://onz--dcaidev.sandbox.my.salesforce-scrt.com" }
+      );
+      console.log("✅ init() called");
+    } catch (err) {
+      console.error("❌ init error:", err);
+    }
+  }
+
+  // Button handler - Same as original index.html
+  function openChat() {
+    console.log("🚀 Continue button clicked - launching chat...");
+    if (embeddedservice_bootstrap?.utilAPI?.launchChat) {
+      embeddedservice_bootstrap.utilAPI.launchChat()
+        .then(() => console.log("🟢 launchChat() invoked"))
+        .catch(err => console.error("❌ launchChat() error:", err));
+    } else {
+      console.log("⏳ utilAPI not ready yet");
+    }
+  }
+
+// Navigation dummy functions
+function goHome() {
+  console.log("🏠 OneNZ Home clicked (dummy link)");
+  // Could reload page or navigate to home
+}
+
+function toggleMobileMenu() {
+  const menu = document.getElementById('navMenu');
+  menu.classList.toggle('open');
+}
+
+function searchAction() {
+  console.log("🔍 Search clicked (dummy action)");
+  // Could open search modal or navigate to search page
+}
+
+function userAction() {
+  console.log("👤 User account clicked (dummy action)");
+  // Could open account menu or navigate to login/account page
+}
+</script>
+
+<script type='text/javascript' src='https://onz--dcaidev.sandbox.my.site.com/ESWONZMessagingWeb1757919743068/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+
+</body>
+</html>
