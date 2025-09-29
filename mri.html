@@ -128,13 +128,13 @@
     const isAndroid = /Android/i.test(navigator.userAgent);
     if (isAndroid) {
       window.addEventListener("onEmbeddedMessageSent", (event) => {
+		  console.log('event',event);
+		  event.preventDefault();
           setTimeout(() => {
-            // Get the currently focused element and remove focus to hide keyboard
-            //const activeElement = document.activeElement;
-            //if (activeElement && activeElement.blur) {
-              //activeElement.blur();
-            //}
-			  document.body.focus();
+            const activeElement = document.activeElement;
+            if (activeElement && activeElement.blur) {
+              activeElement.blur();
+            }
           }, 150);
       });
     }
