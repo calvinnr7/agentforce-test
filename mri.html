@@ -68,7 +68,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir qwe</h1>
+    <h1>Agentforce (MIAW) – Test Page munawir xyz</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -129,7 +129,8 @@
     if (isAndroid) {
       window.addEventListener("onEmbeddedMessageSent", (event) => {
 		  event.preventDefault();
-  		console.log(event.detail);
+		  event.stopImmediatePropagation();
+  		/*console.log(event.detail);
   		console.log(event.detail.conversationEntry.sender);
   		console.log(event.detail.conversationEntry.sender.role);
 			  setTimeout(() => {
@@ -139,7 +140,7 @@
 	              activeElement.blur();
 	            }
 	          }, 200); 
-      });
+      });*/
     }
     // ===================================================================
     // == NEWLY ADDED CODE ENDS HERE =====================================
