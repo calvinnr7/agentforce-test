@@ -68,7 +68,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir abc</h1>
+    <h1>Agentforce (MIAW) – Test Page munawir asd</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -131,13 +131,21 @@
   		console.log(event.detail);
   		console.log(event.detail.conversationEntry.sender);
   		console.log(event.detail.conversationEntry.sender.role);
-        setTimeout(() => {
-            // Get the currently focused element and remove focus to hide keyboard
-            const activeElement = document.activeElement;
-            if (activeElement && activeElement.blur) {
-              activeElement.blur();
-            }
-          }, 500);
+		  if(event.detail.conversationEntry.sender.role === 'Chatbot'){
+			  setTimeout(() => {
+	            // Get the currently focused element and remove focus to hide keyboard
+	            const activeElement = document.activeElement;
+	            if (activeElement && activeElement.blur) {
+	              activeElement.blur();
+	            }
+	          }, 500);
+		  }
+		  else{
+			  const activeElement = document.activeElement;
+			  if (activeElement && activeElement.blur) {
+				  activeElement.blur();
+			  }
+		  } 
       });
     }
     // ===================================================================
