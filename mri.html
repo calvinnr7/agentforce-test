@@ -68,7 +68,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir</h1>
+    <h1>Agentforce (MIAW) – Test Page munawir abc</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -92,15 +92,6 @@
 		console.log('resetTimeout',resetTimeout);
 		window.dispatchEvent(resetTimeout);
 	});
-	
-	const isAndroid = /Android/i.test(navigator.userAgent);
-	if (isAndroid) {
-		//Blur android keyboard
-		window.addEventListener("onEmbeddedMessageReceived", (event) => {
-			const activeElement = document.activeElement;
-			activeElement.blur();
-	    });
-	}
 	
   // Register the listener BEFORE bootstrap loads, so we never miss the event
   window.addEventListener("onEmbeddedMessagingReady", () => {
@@ -129,6 +120,29 @@
       console.log("ℹ️ No recommendedPlanCode in URL");
     }
   });
+
+	// ===================================================================
+    // == NEWLY ADDED CODE STARTS HERE ===================================
+    // ===================================================================
+    // FIX: Workaround to hide keyboard on Android after a bot message
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    if (isAndroid) {
+      window.addEventListener("onEmbeddedMessageSent", (event) => {
+  		console.log(event.detail);
+  		console.log(event.detail.conversationEntry.sender);
+  		console.log(event.detail.conversationEntry.sender.role);
+        setTimeout(() => {
+            // Get the currently focused element and remove focus to hide keyboard
+            const activeElement = document.activeElement;
+            if (activeElement && activeElement.blur) {
+              activeElement.blur();
+            }
+          }, 500);
+      });
+    }
+    // ===================================================================
+    // == NEWLY ADDED CODE ENDS HERE =====================================
+    // ===================================================================
 
 
   // Init called when bootstrap loads
