@@ -82,6 +82,11 @@
   function getParam(name) {
     return new URLSearchParams(window.location.search).get(name);
   }
+
+	window.addEventListner("onEmbeddedMessageSent", (event) => {
+		console.log("onEmbeddedMessageSent", event);
+	});
+	
 	const isAndroid = /Android/i.test(navigator.userAgent);
 	if (isAndroid) {
 		//Blur android keyboard
