@@ -132,21 +132,13 @@
   		console.log(event.detail);
   		console.log(event.detail.conversationEntry.sender);
   		console.log(event.detail.conversationEntry.sender.role);
-		  if(event.detail.conversationEntry.sender.role === 'Chatbot'){
 			  setTimeout(() => {
 	            // Get the currently focused element and remove focus to hide keyboard
 	            const activeElement = document.activeElement;
 	            if (activeElement && activeElement.blur) {
 	              activeElement.blur();
 	            }
-	          }, 500);
-		  }
-		  else{
-			  const activeElement = document.activeElement;
-			  if (activeElement && activeElement.blur) {
-				  activeElement.blur();
-			  }
-		  } 
+	          }, 200); 
       });
     }
     // ===================================================================
