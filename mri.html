@@ -132,24 +132,21 @@
     // ===================================================================
 
   // Init called when bootstrap loads
-  function initEmbeddedMessaging() {
-    try {
-      console.log("→ initEmbeddedMessaging()");
-      embeddedservice_bootstrap.settings.language = "en_US";
-      embeddedservice_bootstrap.settings.enableUserInputForConversationWithBot = false;
-      embeddedservice_bootstrap.settings.disableStreamingResponses = true;
-
-      embeddedservice_bootstrap.init(
-        '00DOg000001Vluv',
-				'MRI_Messaging_UI',
-				'https://onz--dcaidev.sandbox.my.site.com/ESWMRIMessagingUI1758773345576',
-				{
-					scrt2URL: 'https://onz--dcaidev.sandbox.my.salesforce-scrt.com'
-				}
-			);
-      console.log("✅ init() called");
-  });
-
+	function initEmbeddedMessaging() {
+		try {
+			console.log("→ initEmbeddedMessaging()");
+	      embeddedservice_bootstrap.settings.language = "en_US";
+	      embeddedservice_bootstrap.settings.enableUserInputForConversationWithBot = false;
+	      embeddedservice_bootstrap.settings.disableStreamingResponses = true;
+	
+	      '00DOg000001Vluv',
+					'MRI_Messaging_UI',
+					'https://onz--dcaidev.sandbox.my.site.com/ESWMRIMessagingUI1758773345576',
+					{
+						scrt2URL: 'https://onz--dcaidev.sandbox.my.salesforce-scrt.com'
+					}
+				);
+	      console.log("✅ init() called");
     } catch (err) {
       console.error("❌ init error:", err);
     }
