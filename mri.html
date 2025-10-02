@@ -68,7 +68,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page munawir abcdef</h1>
+    <h1>Agentforce (MIAW) – Test Page munawir abc</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -148,8 +148,12 @@
 				}
 			);
       console.log("✅ init() called");
-		console.log(document.querySelector("[name='viewport']"))
-		document.querySelector("[name='viewport']").setAttribute("content", "width=device-width, initial-scale=1, minimum-scale=1, interactive-widget=resizes-visual");;
+		console.log(document.querySelector("[name='viewport']"));
+		document.querySelector("[name='viewport']").remove();
+		let metatag = document.createElement('meta');
+		metatag.setAttribute('name', 'viewport');
+		metatag.content = 'width=device-width, initial-scale=1, minimum-scale=1, interactive-widget=resizes-visual';
+		document.getElementsByTagName('head')[0].appendChild(metatag);
 
     } catch (err) {
       console.error("❌ init error:", err);
