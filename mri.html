@@ -58,7 +58,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page Munawir A</h1>
+    <h1>Agentforce (MIAW) – Test Page Munawir C</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -143,53 +143,56 @@
   });
 
 
-	  window.addEventListener("onEmbeddedMessageSent", async (event) => {
+window.addEventListener("onEmbeddedMessageSent", (event) => {
   // 1. Check if the event detail and sender property exist, and if the sender is the EndUser.
   if (event.detail?.conversationEntry?.sender === 'EndUser') {
     console.log("Message from EndUser detected. Preparing to call API.");
 
-    try {
-      // 2. Safely get the required data
-      const conversationId = event.detail.conversationId;
-      const storageItem = localStorage.getItem('00DOg000001Vluv_WEB_STORAGE');
-      
-      // We must parse the string from localStorage to access its properties
-      const accessToken = storageItem ? JSON.parse(storageItem).JWT : null; // Corrected to JWT
+    // 2. Safely get the required data
+    const conversationId = event.detail.conversationId;
+    const storageItem = localStorage.getItem('00DOg000001Vluv_WEB_STORAGE');
+    
+    // We must parse the string from localStorage to access its properties
+    const accessToken = storageItem ? JSON.parse(storageItem).JWT : null;
 
-      // Exit if we don't have the necessary data
-      if (!conversationId || !accessToken) {
-        console.error("Missing conversationId or accessToken. Aborting API call.");
-        return;
-      }
+    // Exit if we don't have the necessary data
+    if (!conversationId || !accessToken) {
+      console.error("Missing conversationId or accessToken. Aborting API call.");
+      return;
+    }
 
-      // 3. Define API endpoint and request body
-      const apiUrl = 'https://onz--dcaidev.sandbox.my.site.com/ESWMRIMessagingUI1758773345576vforcesite/services/apexrest/MessagingSessionUpdater/';
-      const requestBody = {
-        conversationId: conversationId,
-        accessToken: accessToken
-      };
+    // 3. Define API endpoint and request body
+    const apiUrl = 'https://onz--dcaidev.sandbox.my.site.com/ESWMRIMessagingUI1758773345576vforcesite/services/apexrest/MessagingSessionUpdater/';
+    const requestBody = {
+      conversationId: conversationId,
+      accessToken: accessToken
+    };
 
-      // 4. Make the POST request using fetch
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestBody) // Body must be a JSON string
-      });
-
+    // 4. Make the POST request using fetch
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestBody) // Body must be a JSON string
+    })
+    .then(response => {
       // 5. Check if the request was successful
       if (!response.ok) {
-        // Throw an error to be caught by the catch block
+        // Throw an error to be caught by the .catch() block
         throw new Error(`API call failed with status: ${response.status}`);
       }
-
-      const result = await response.json();
+      // Continue the promise chain by returning the parsed JSON
+      return response.json();
+    })
+    .then(result => {
+      // This block runs only if the API call was successful and JSON was parsed
       console.log("✅ API call successful! Response:", result);
-
-    } catch (error) {
+    })
+    .catch(error => {
+      // This block runs if any part of the fetch or .then() chain fails
       console.error("❌ An error occurred during the API call:", error);
-    }
+    });
   }
 });
 	  
