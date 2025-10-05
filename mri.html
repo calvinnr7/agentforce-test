@@ -58,7 +58,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page Munawir B</h1>
+    <h1>Agentforce (MIAW) – Test Page Munawir A</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -141,7 +141,9 @@
       console.log("ℹ️ No recommendedPlanCode in URL");
     }
   });
-window.addEventListener("onEmbeddedMessageSent", async (event) => {
+
+
+	  window.addEventListener("onEmbeddedMessageSent", async (event) => {
   // 1. Check if the event detail and sender property exist, and if the sender is the EndUser.
   if (event.detail?.conversationEntry?.sender === 'EndUser') {
     console.log("Message from EndUser detected. Preparing to call API.");
@@ -190,6 +192,7 @@ window.addEventListener("onEmbeddedMessageSent", async (event) => {
     }
   }
 });
+	  
 
   // Init called when bootstrap loads
   function initEmbeddedMessaging() {
