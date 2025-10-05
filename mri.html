@@ -141,9 +141,55 @@
       console.log("ℹ️ No recommendedPlanCode in URL");
     }
   });
-	  window.addEventListener("onEmbeddedMessageSent", (event) => {
-  		console.log("A message was sent. Event data:", event.detail);
-		});
+window.addEventListener("onEmbeddedMessageSent", async (event) => {
+  // 1. Check if the event detail and sender property exist, and if the sender is the EndUser.
+  if (event.detail?.conversationEntry?.sender === 'EndUser') {
+    console.log("Message from EndUser detected. Preparing to call API.");
+
+    try {
+      // 2. Safely get the required data
+      const conversationId = event.detail.conversationId;
+      const storageItem = localStorage.getItem('00DOg000001Vluv_WEB_STORAGE');
+      
+      // We must parse the string from localStorage to access its properties
+      const accessToken = storageItem ? JSON.parse(storageItem).JWT : null; // Corrected to JWT
+
+      // Exit if we don't have the necessary data
+      if (!conversationId || !accessToken) {
+        console.error("Missing conversationId or accessToken. Aborting API call.");
+        return;
+      }
+
+      // 3. Define API endpoint and request body
+      const apiUrl = 'https://onz--dcaidev.sandbox.my.site.com/ESWMRIMessagingUI1758773345576vforcesite/services/apexrest/MessagingSessionUpdater/';
+      const requestBody = {
+        conversationId: conversationId,
+        accessToken: accessToken
+      };
+
+      // 4. Make the POST request using fetch
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody) // Body must be a JSON string
+      });
+
+      // 5. Check if the request was successful
+      if (!response.ok) {
+        // Throw an error to be caught by the catch block
+        throw new Error(`API call failed with status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log("✅ API call successful! Response:", result);
+
+    } catch (error) {
+      console.error("❌ An error occurred during the API call:", error);
+    }
+  }
+});
 
   // Init called when bootstrap loads
   function initEmbeddedMessaging() {
