@@ -58,7 +58,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page Munawir</h1>
+    <h1>Agentforce (MIAW) – Test Page Munawir A</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -116,6 +116,7 @@
   // Register the listener BEFORE bootstrap loads, so we never miss the event
   window.addEventListener("onEmbeddedMessagingReady", () => {
     console.log("⚡ onEmbeddedMessagingReady fired");
+	  console.log('localStorage',console.log(localStorage.getItem('00DOg000001Vluv_WEB_STORAGE')));
 
     const QUERY_KEYS = {
       plan: "pid"
