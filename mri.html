@@ -58,7 +58,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page Munawir A</h1>
+    <h1>Agentforce (MIAW) – Test Page Munawir B</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -146,7 +146,7 @@
 window.addEventListener("onEmbeddedMessageSent", (event) => {
 	console.log(event.detail);
   // 1. Check if the event detail and sender property exist, and if the sender is the EndUser.
-  if (event.detail?.conversationEntry?.sender.type === 'EndUser') {
+  if (event.detail?.conversationEntry?.sender.role === 'EndUser') {
     console.log("Message from EndUser detected. Preparing to call API.");
 
     // 2. Safely get the required data
