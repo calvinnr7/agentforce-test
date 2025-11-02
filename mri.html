@@ -203,8 +203,8 @@ window.addEventListener("onEmbeddedMessageSent", (event) => {
     try {
       console.log("→ initEmbeddedMessaging()");
       embeddedservice_bootstrap.settings.language = "en_US";
-      embeddedservice_bootstrap.settings.enableUserInputForConversationWithBot = false;
-      embeddedservice_bootstrap.settings.disableStreamingResponses = true;
+      //embeddedservice_bootstrap.settings.enableUserInputForConversationWithBot = false;
+      //embeddedservice_bootstrap.settings.disableStreamingResponses = true;
 		embeddedservice_bootstrap.settings.chatButtonPosition = "30px, 48%";
 
       embeddedservice_bootstrap.init(
