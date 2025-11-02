@@ -58,7 +58,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Agentforce (MIAW) – Test Page Munawir B</h1>
+    <h1>Agentforce (MIAW) – Test Page Munawir A</h1>
     <p class="muted">Hosted on GitHub Pages. Not indexed. Use for safe agent testing.</p>
     <p>
       <button onclick="openChat()">Open Chat</button>
@@ -129,10 +129,10 @@
     const planCode = getParam(QUERY_KEYS.plan) || DEFAULT_PLAN_CODE;
     
     if (planCode) {
-      embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+      //embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
         // must match the Channel Variable Name you defined in Messaging Setup
-        "recommendedPlanCode": planCode
-      });
+        //"recommendedPlanCode": planCode
+      //});
       console.log("🔒 setHiddenPrechatFields: recommendedPlanCode =", planCode);
 
       // optional: inspect what’s queued
@@ -202,12 +202,13 @@ window.addEventListener("onEmbeddedMessageSent", (event) => {
   function initEmbeddedMessaging() {
     try {
       console.log("→ initEmbeddedMessaging()");
-      embeddedservice_bootstrap.settings.language = "en_US";
+      agentforce_messaging.settings.language = "en_US";
+		agentforce_messaging.settings.devMode = true;
       //embeddedservice_bootstrap.settings.enableUserInputForConversationWithBot = false;
       //embeddedservice_bootstrap.settings.disableStreamingResponses = true;
-		embeddedservice_bootstrap.settings.chatButtonPosition = "30px, 48%";
+	  //agentforce_messaging.settings.chatButtonPosition = "30px, 48%";
 
-      embeddedservice_bootstrap.init(
+      agentforce_messaging.init(
         '00DOg000001Vluv',
 		'MRI_Messaging_UI',
 		'https://onz--dcaidev.sandbox.my.site.com/ESWMRIMessagingUI1758773345576',
